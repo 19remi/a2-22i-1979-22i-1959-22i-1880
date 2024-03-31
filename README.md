@@ -1,64 +1,43 @@
-# a2
-import pandas as pd
+# Music Recommendation Word Similarity with MapReduce
 
-# Read the CSV file into a DataFrame
-df = pd.read_csv('process.csv')
+This project implements a MapReduce job for calculating word similarity based on Term Frequency-Inverse Document Frequency (TF-IDF) using MrJob library.
 
-# Filter the DataFrame where ARTICLE_ID equals 0, 1, or 2
-filtered_df = df[df['ARTICLE_ID'].isin([0, 1])]
+## Overview
 
-# Initialize an empty set to store unique words
-word_set = set()
+This MapReduce job is designed to analyze a collection of articles and calculate the TF-IDF score for each word. It preprocesses the text, calculates TF and IDF values, and finally computes the TF-IDF score. The job also provides the functionality to calculate the TF-IDF score for user-provided query words and compute the similarity scores.
 
-# Iterate over the SECTION_TEXT values in the filtered DataFrame
-for section_text in filtered_df['SECTION_TEXT']:
-    # Split the paragraph into words using whitespace as the delimiter
-    section_text = str(section_text)
-    words = section_text.split()
-    # Add each word to the set
-    for word in words:
-        word_set.add(word)
+## Dependencies
 
-# Convert the set into a sorted list
-sorted_word_list = sorted(word_set)
+- [MrJob](https://github.com/Yelp/mrjob)
+- [NLTK](https://www.nltk.org/)
+- [pandas](https://pandas.pydata.org/)
 
-# Create a dictionary to map each word to a unique ID
-unique_id_set = {word: idx for idx, word in enumerate(sorted_word_list)}
+## Usage
 
-# Create a dictionary tf0 with unique ID from unique_id_set and count as 0 initially
-tf0 = {unique_id: 0 for unique_id in unique_id_set.values()}
-tf1={unique_id: 0 for unique_id in unique_id_set.values()}
-# Iterate over each paragraph where ARTICLE_ID equals 0
-for section_text in df[df['ARTICLE_ID'] == 0]['SECTION_TEXT']:
-    # Split the paragraph into words using whitespace as the delimiter
-    words = str(section_text).split()
-    # Increment the count for each word in tf0
-    for word in words:
-        unique_id = unique_id_set.get(word)
-        if unique_id is not None:
-            tf0[unique_id] += 1
-for section_text in df[df['ARTICLE_ID'] == 1]['SECTION_TEXT']:
-    # Split the paragraph into words using whitespace as the delimiter
-    words = str(section_text).split()
-    # Increment the count for each word in tf1
-    for word in words:
-        unique_id1 = unique_id_set.get(word)
-        if unique_id1 is not None:
-            tf1[unique_id1] += 1
-# Filter out items with count 0
-tf0_filtered = {unique_id: count for unique_id, count in tf0.items() if count != 0}
-# Filter out items with count 0
-tf1_filtered = {unique_id1: count for unique_id1, count in tf1.items() if count != 0}
+1. Install the required dependencies:
 
+    ```bash
+    pip install mrjob nltk pandas
+    ```
 
-# Print the filtered tf0 dictionary
-print(tf0_filtered)
+2. Download necessary NLTK resources:
 
-# Print the filtered tf0 dictionary
-print(tf0_filtered)
+    ```python
+    import nltk
+    nltk.download('wordnet')
+    nltk.download('stopwords')
+    ```
 
-# Print the tf0 dictionary
-#print(tf0)
-#print('\n \n \n')
-#print(tf1)
-# for understanding will do map reducer later
+3. Run the MapReduce job:
+
+    ```bash
+    python mr_word_similarity.py --num-articles <num_articles> --query "<search_query>"
+    ```
+
+    Replace `<num_articles>` with the desired number of articles to check and `<search_query>` with the search query.
+
+## Contributors
+
+- 22i-1979 Abdulrehman
+- 22i-1959 Ismael Hafeez
+- 22i-1880 Saad Iftikhar
