@@ -1,0 +1,6 @@
+It preprocesses the text data (including word tokenization, lowercasing, punctuation removal, etc.).
+It calculates Term Frequency (TF) for each word in each article.
+It calculates Inverse Document Frequency (IDF) for each word across all articles.
+It calculates TF-IDF for each word in each article.
+It processes the search query and calculates TF-IDF for the query words.
+It calculates similarity scores between the query and each document.
