@@ -1,4 +1,4 @@
-# Music Recommendation Word Similarity with MapReduce
+#  Word Similarity with MapReduce
 
 This project implements a MapReduce job for calculating word similarity based on Term Frequency-Inverse Document Frequency (TF-IDF) using MrJob library.
 
